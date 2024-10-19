@@ -12,7 +12,8 @@ from torch.utils.data import DataLoader
 
 mtcnn = MTCNN(image_size=240, margin=0, min_face_size=20) # initializing mtcnn for face detection
 resnet = InceptionResnetV1(pretrained='vggface2').eval() # initializing resnet for face img to embeding conversion
-test_image = sys.argv[1]
+#test_image = sys.argv[1]
+test_image = "test_000.jpg"
 
 def face_match(img_path, data_path): # img_path= location of photo, data_path= location of data.pt
     # getting embedding matrix of the given img
