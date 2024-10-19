@@ -29,12 +29,18 @@ def download_image_from_s3(bucket_name, key, download_path):
         print(f"Error downloading file {key} from S3: {e}")
 
 # Function to upload the result to S3
+
 def upload_result_to_s3(bucket_name, key, result):
     try:
-        s3.put_object(Bucket=bucket_name, Key=key, Body=result)
-        print(f"Uploaded result for {key} to {bucket_name}")
+        # Strip the file extension from the key to get only the base filename
+        base_key = os.path.splitext(key)[0]
+        
+        # Store the result in the output bucket using the base filename as the key
+        s3.put_object(Bucket=bucket_name, Key=base_key, Body=result)
+        print(f"Uploaded result for {base_key} to {bucket_name}")
     except Exception as e:
-        print(f"Error uploading result {key} to S3: {e}")
+        print(f"Error uploading result {base_key} to S3: {e}")
+
 
     
 
@@ -46,11 +52,9 @@ def process_image(filename):
     # Run inference using the face recognition model
     try:
         # Inject the local_image_path into sys.argv[1] as a workaround
-        import sys
-        sys.argv = ["face_recognition.py", local_image_path]
-
-        # Now call face_match
-        result_name, match_score = face_match(local_image_path, '/path/to/model/data.pt')
+        model_path = './model/data.pt'  # Adjust the path based on where 'data.pt' is located
+        result_name, match_score = face_match(local_image_path, model_path)
+        print(result_name)
         return f"{result_name}:{match_score}"
     except Exception as e:
         print(f"Error during face recognition inference: {e}")
