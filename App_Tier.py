@@ -36,6 +36,8 @@ def upload_result_to_s3(bucket_name, key, result):
     except Exception as e:
         print(f"Error uploading result {key} to S3: {e}")
 
+    
+
 # Function to process image using the face recognition model
 def process_image(filename):
     local_image_path = f'/tmp/{filename}'
@@ -43,11 +45,17 @@ def process_image(filename):
 
     # Run inference using the face recognition model
     try:
+        # Inject the local_image_path into sys.argv[1] as a workaround
+        import sys
+        sys.argv = ["face_recognition.py", local_image_path]
+
+        # Now call face_match
         result_name, match_score = face_match(local_image_path, 'model/data.pt')
         return f"{result_name}:{match_score}"
     except Exception as e:
         print(f"Error during face recognition inference: {e}")
         return "Error during inference"
+
 
 # Main loop to poll the SQS request queue for messages
 def process_queue_messages():
