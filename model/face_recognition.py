@@ -33,5 +33,5 @@ def face_match(img_path, data_path): # img_path= location of photo, data_path= l
     idx_min = dist_list.index(min(dist_list))
     return (name_list[idx_min], min(dist_list))
 
-result = face_match(test_image, 'data.pt')
+result = face_match(test_image, 'model/data.pt')
 print(result[0])
