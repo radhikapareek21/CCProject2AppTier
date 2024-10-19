@@ -50,7 +50,7 @@ def process_image(filename):
         sys.argv = ["face_recognition.py", local_image_path]
 
         # Now call face_match
-        result_name, match_score = face_match(local_image_path, 'model/data.pt')
+        result_name, match_score = face_match(local_image_path, '/path/to/model/data.pt')
         return f"{result_name}:{match_score}"
     except Exception as e:
         print(f"Error during face recognition inference: {e}")
