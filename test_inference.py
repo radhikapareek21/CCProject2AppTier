@@ -1,13 +1,11 @@
-import torch
-#from model import FaceRecognitionModel  # Assuming this is your model
-from model.face_recognition import FaceRecognitionModel
+import sys
+from model.face_recognition import face_match  # Importing the face_match function
 
-# Load the model
-model = FaceRecognitionModel()
-model.load_state_dict(torch.load('model/model_weights.pth'))  # Ensure model_weights.pth exists in the 'model' folder
-model.eval()
+# Test image
+test_image = 'test_000.jpg'
 
-# Test inference with the test image
-test_image = 'test_000.jpg'  # The test image file in your directory
-result = model.infer(test_image)  # Assuming your model has an infer function
-print("Inference result:", result)
+# Perform face matching
+result = face_match(test_image, 'model/data.pt')  # Using 'data.pt' for pre-saved embeddings
+
+# Output the result
+print(f"Inference result: {result[0]}, Distance: {result[1]}")
