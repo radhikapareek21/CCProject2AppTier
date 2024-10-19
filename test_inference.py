@@ -1,5 +1,6 @@
 import torch
-from model import FaceRecognitionModel  # Assuming this is your model
+#from model import FaceRecognitionModel  # Assuming this is your model
+from model.face_recognition import FaceRecognitionModel
 
 # Load the model
 model = FaceRecognitionModel()
