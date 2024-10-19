@@ -93,7 +93,7 @@ def process_queue_messages():
                             QueueUrl=REQUEST_QUEUE_URL,
                             ReceiptHandle=message['ReceiptHandle']
                         )
-
+##
                         print(f"Processed and sent result for {filename}")
                     else:
                         print("No valid filename found in the message.")
