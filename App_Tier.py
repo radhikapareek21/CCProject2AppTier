@@ -21,20 +21,12 @@ sqs = boto3.client('sqs', region_name=REGION)
 s3 = boto3.client('s3', region_name=REGION)
 
 # Function to download an image from S3
-'''
 def download_image_from_s3(bucket_name, key, download_path):
     try:
         s3.download_file(Bucket=bucket_name, Key=key, Filename=download_path)
         print(f"Downloaded {key} from {bucket_name} to {download_path}")
     except Exception as e:
         print(f"Error downloading file {key} from S3: {e}")
-
-def upload_image_to_s3(bucket_name, filename, image_data):
-    try:
-        s3.put_object(Bucket=bucket_name, Key=filename, Body=image_data)
-        print(f"Uploaded {filename} to {bucket_name}")
-    except Exception as e:
-        print(f"Error uploading file {filename} to S3: {e}")'''
 
 # Function to upload the result to S3
 
@@ -55,7 +47,7 @@ def upload_result_to_s3(bucket_name, key, result):
 # Function to process image using the face recognition model
 def process_image(filename):
     local_image_path = f'/tmp/{filename}'
-    #download_image_from_s3(INPUT_BUCKET, filename, local_image_path)
+    download_image_from_s3(INPUT_BUCKET, filename, local_image_path)
 
     # Run inference using the face recognition model
     try:
@@ -96,7 +88,6 @@ def process_queue_messages():
                         result = process_image(filename)
 
                         # Upload the result to the S3 output bucket
-                        #upload_image_to_s3(INPUT_BUCKET,filename,body)
                         upload_result_to_s3(OUTPUT_BUCKET, filename, result)
 
                         # Send the result back to the response queue
