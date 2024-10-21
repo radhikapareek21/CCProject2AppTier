@@ -71,6 +71,7 @@ def process_queue_messages():
                 MaxNumberOfMessages=1,
                 WaitTimeSeconds=20  # Long polling for better efficiency
             )
+            print("Received response from request sqs queue")
         except Exception as e:
             print(f"Error receiving messages from SQS: {e}")
             continue
@@ -99,12 +100,13 @@ def process_queue_messages():
                             QueueUrl=RESPONSE_QUEUE_URL,
                             MessageBody=json.dumps(result_message)
                         )
-
+                        print("Message sent to response queue")
                         # Delete the processed message from the queue
                         sqs.delete_message(
                             QueueUrl=REQUEST_QUEUE_URL,
                             ReceiptHandle=message['ReceiptHandle']
                         )
+                        print("Message deleted from request queue")
 ##
                         print(f"Processed and sent result for {filename}")
                     else:
