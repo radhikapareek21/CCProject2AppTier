@@ -69,7 +69,7 @@ def process_queue_messages():
             response = sqs.receive_message(
                 QueueUrl=REQUEST_QUEUE_URL,
                 MaxNumberOfMessages=1,
-                WaitTimeSeconds=20  # Long polling for better efficiency
+                WaitTimeSeconds=5  # Long polling for better efficiency
             )
             print("Received response from request sqs queue")
         except Exception as e:
