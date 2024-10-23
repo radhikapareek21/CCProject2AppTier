@@ -71,7 +71,6 @@ def process_queue_messages():
                 MaxNumberOfMessages=1,
                 WaitTimeSeconds=5  # Long polling for better efficiency
             )
-            print("Received response from request sqs queue")
         except Exception as e:
             print(f"Error receiving messages from SQS: {e}")
             continue
