@@ -88,9 +88,6 @@ def process_queue_messages():
                         # Process the image using the model
                         result = process_image(filename)
 
-                        # Upload the result to the S3 output bucket
-                        upload_result_to_s3(OUTPUT_BUCKET, filename, result)
-
                         # Send the result back to the response queue
                         result_message = {
                             'filename': filename,
@@ -107,6 +104,8 @@ def process_queue_messages():
                             ReceiptHandle=message['ReceiptHandle']
                         )
                         print("Message deleted from request queue")
+
+                        upload_result_to_s3(OUTPUT_BUCKET, filename, result)
 ##
                         print(f"Processed and sent result for {filename}")
                     else:
